@@ -8,6 +8,8 @@ exports.commandEST = {
     .setName("timest")
     .setDescription("Replies with EST"),
   async execute(interaction) {
-    await interaction.reply("fuck");
+    await interaction.reply(
+      "fuck this was a little more tricky than I expected. So pretty normal project for me."
+    );
   },
 };
