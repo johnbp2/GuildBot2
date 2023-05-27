@@ -1,4 +1,4 @@
-export function changeTimeZone(date, timeZone) {
+exports.getESTTimeZone = function (date, timeZone) {
   if (typeof date === "string") {
     return new Date(
       new Date(date).toLocaleString("en-US", {
@@ -12,4 +12,4 @@ export function changeTimeZone(date, timeZone) {
       timeZone,
     })
   );
-}
+};

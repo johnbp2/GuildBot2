@@ -6,44 +6,29 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url); // construct the require method
 const url = require("url");
 const conFigure = require("./config.json");
-// const * as fs = import("node:fs");
-
-// region: set up the dir variable
-const __filename = fileURLToPath(import.meta.url);
-
-const __dirname = path.dirname(__filename);
-//
+const relativePath = require("./relativePosixPath.cjs");
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
-const foldersPath = path.join(__dirname, "commands");
+const foldersPath = path.join(process.cwd(), "commands");
 const commandFolders = fs.readdirSync(foldersPath);
 for (const folder of commandFolders) {
   // Grab all the command files from the commands directory you created earlier
   const commandsPath = path.join(foldersPath, folder);
   const commandFiles = fs
     .readdirSync(commandsPath)
-    .filter(
-      (file) =>
-        file.endsWith(".cjs") || file.endsWith(".js") || file.endsWith(".mjs")
-    );
+    .filter((file) => file.endsWith(".cjs") || file.endsWith(".js"));
   // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
   for (const file of commandFiles) {
-    let filePath = path.join(commandsPath, file);
+    let absoluteFilePath = path.join(commandsPath, file);
 
-    var relativePath = path.relative(process.cwd(), filePath);
-    console.log("Relative path ".concat(relativePath));
-
-    let definitelyPosix = relativePath.split(path.sep).join(path.posix.sep);
-    console.log("Posix Relative path ".concat(definitelyPosix));
-    definitelyPosix = "./".concat(definitelyPosix);
-    console.log("Posix Relative path ".concat(definitelyPosix));
-    // TODO: figure out how to handle the relative path nstuff dynamically
-    //  const myModule = require("./commands/easternTime/easternTime.cjs");
-
+    /*********************save*****************************
+        const myModule = require("./commands/easternTime/easternTime.cjs");
+    
+    ******************************************************/
+    const definitelyPosix = relativePath.getPosixRelativePath(absoluteFilePath);
     const myModule = require(definitelyPosix);
 
-    console.log("we got here");
     if ("data" in myModule.commandEST && "execute" in myModule.commandEST) {
       commands.push(myModule.commandEST.data.toJSON());
     } else {
