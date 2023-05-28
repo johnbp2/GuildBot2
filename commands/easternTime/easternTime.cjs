@@ -12,6 +12,8 @@ exports.commandEST = {
     console.log("Timest");
     const message = estHelper.getESTTimeZone(new Date(), "America/New_York");
     console.log("Message: ".concat(message.toString()));
-    await interaction.editReply(message.toString());
+    await interaction.editReply(
+      "Easter Standard Time:  ".concat(message.toString())
+    );
   },
 };
