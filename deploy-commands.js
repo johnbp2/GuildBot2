@@ -1,7 +1,6 @@
 import {REST, Routes} from "discord.js";
-import * as fs from "fs";
-import path from "path";
-import {fileURLToPath} from "url";
+import * as fs from 'fs';
+import path from 'path';
 import {createRequire} from "module";
 
 const require = createRequire(import.meta.url); // construct the require method
